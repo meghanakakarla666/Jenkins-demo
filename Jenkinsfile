@@ -3,32 +3,37 @@ pipeline {
     agent any
 
     stages {
-        stage('Build') {
+        stage('Checkout') {
             steps {
-                echo 'Building the application...'
+                echo 'Jenkins is checking out the GitHub repository.'
             }
         }
 
-        stage('Test') {
+        stage('Check Python') {
             steps {
-                echo 'Running automated tests...'
+                bat '"C:\\Users\\Meghana K\\AppData\\Local\\Programs\\Python\\Python37\\python.exe" --version'
+            }
+        }
+
+        stage('Run Python Tests') {
+            steps {
+                bat '"C:\\Users\\Meghana K\\AppData\\Local\\Programs\\Python\\Python37\\python.exe" -m unittest -v'
             }
         }
 
         stage('Deploy') {
             steps {
-                echo 'Deploying the application...'
+                echo 'Tests passed. Deployment stage can run.'
             }
         }
     }
 
     post {
         success {
-            echo 'Pipeline completed successfully!'
+            echo 'All Python tests passed!'
         }
-
         failure {
-            echo 'Pipeline failed!'
+            echo 'Pipeline failed. Check Console Output.'
         }
     }
 }
